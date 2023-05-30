@@ -10,36 +10,35 @@
  */
 heap_t *heap_insert(heap_t **root, int value)
 {
-    heap_t *new_node, *parent;
+	heap_t *new_node, *parent;
 
-    if (root == NULL)
-        return (NULL);
+	if (root == NULL)
+		return (NULL);
 
-    /* Create a new node */
-    new_node = binary_tree_node(NULL, value);
-    if (new_node == NULL)
-        return (NULL);
+	/* Create a new node */
+	new_node = binary_tree_node(NULL, value);
+	if (new_node == NULL)
+		return (NULL);
 
-    /* If the heap is empty, make the new node the root */
-    if (*root == NULL)
-    {
-        *root = new_node;
-        return (new_node);
-    }
+	/* If the heap is empty, make the new node the root */
+	if (*root == NULL)
+	{
+		*root = new_node;
+		return (new_node);
+	}
 
-    /* Find the correct position to insert the new node */
-    parent = get_insertion_parent(*root);
-    if (parent->left == NULL)
-        parent->left = new_node;
-    else
-        parent->right = new_node;
+	/* Find the correct position to insert the new node */
+	parent = get_insertion_parent(*root);
+	if (parent->left == NULL)
+		parent->left = new_node;
+	else
+		parent->right = new_node;
 
-    new_node->parent = parent;
+	new_node->parent = parent;
 
-    /* Restore the Max Heap property */
-    heapify_up(new_node);
-
-    return (new_node);
+	/* Restore the Max Heap property */
+	heapify_up(new_node);
+	return (new_node);
 }
 
 /**
@@ -50,25 +49,24 @@ heap_t *heap_insert(heap_t **root, int value)
  */
 heap_t *get_insertion_parent(heap_t *root)
 {
-    size_t height, index;
+	size_t height, index;
 
-    height = binary_tree_height(root);
+	height = binary_tree_height(root);
 
-    /* Find the next available position in the heap */
-    for (index = 1; index <= height; index++)
-    {
-        size_t mask = 1 << (height - index);
+	/* Find the next available position in the heap */
+	for (index = 1; index <= height; index++)
+	{
+		size_t mask = 1 << (height - index);
 
-        if (index == height)
-            break;
+		if (index == height)
+			break;
 
-        if (root->left && !(index & mask))
-            root = root->left;
-        else if (root->right && (index & mask))
-            root = root->right;
-    }
-
-    return (root);
+		if (root->left && !(index & mask))
+			root = root->left;
+		else if (root->right && (index & mask))
+			root = root->right;
+	}
+	return (root);
 }
 
 /**
@@ -77,11 +75,11 @@ heap_t *get_insertion_parent(heap_t *root)
  */
 void heapify_up(heap_t *node)
 {
-    while (node->parent && node->n > node->parent->n)
-    {
-        swap_values(&node->n, &node->parent->n);
-        node = node->parent;
-    }
+	while (node->parent && node->n > node->parent->n)
+	{
+		swap_values(&node->n, &node->parent->n);
+		node = node->parent;
+	}
 }
 
 /**
@@ -91,7 +89,7 @@ void heapify_up(heap_t *node)
  */
 void swap_values(int *a, int *b)
 {
-    int temp = *a;
-    *a = *b;
-    *b = temp;
+	int temp = *a;
+	*a = *b;
+	*b = temp;
 }

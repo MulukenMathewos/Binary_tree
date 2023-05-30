@@ -9,44 +9,44 @@
  */
 int heap_extract(heap_t **root)
 {
-    int value;
+	int value;
 
-    if (root == NULL || *root == NULL)
-        return (0);
+	if (root == NULL || *root == NULL)
+		return (0);
 
-    value = (*root)->n;
+	value = (*root)->n;
 
-    /* If the root is the only node in the heap */
-    if ((*root)->left == NULL && (*root)->right == NULL)
-    {
-        free(*root);
-        *root = NULL;
-        return (value);
-    }
+	/* If the root is the only node in the heap */
+	if ((*root)->left == NULL && (*root)->right == NULL)
+	{
+		free(*root);
+		*root = NULL;
+		return (value);
+	}
 
-    /* Find the last level-order node to replace the root */
-    heap_t *last_node = get_last_node(*root);
-    if (last_node->parent->left == last_node)
-        last_node->parent->left = NULL;
-    else
-        last_node->parent->right = NULL;
+	/* Find the last level-order node to replace the root */
+	heap_t *last_node = get_last_node(*root);
 
-    /* Replace the root with the last node */
-    last_node->parent = NULL;
-    last_node->left = (*root)->left;
-    last_node->right = (*root)->right;
-    if ((*root)->left)
-        (*root)->left->parent = last_node;
-    if ((*root)->right)
-        (*root)->right->parent = last_node;
+	if (last_node->parent->left == last_node)
+		last_node->parent->left = NULL;
+	else
+		last_node->parent->right = NULL;
 
-    free(*root);
-    *root = last_node;
+	/* Replace the root with the last node */
+	last_node->parent = NULL;
+	last_node->left = (*root)->left;
+	last_node->right = (*root)->right;
+	if ((*root)->left)
+		(*root)->left->parent = last_node;
+	if ((*root)->right)
+		(*root)->right->parent = last_node;
 
-    /* Restore the Max Heap property */
-    heapify_down(*root);
+	free(*root);
+	*root = last_node;
 
-    return (value);
+	/* Restore the Max Heap property */
+	heapify_down(*root);
+	return (value);
 }
 
 /**
@@ -57,21 +57,20 @@ int heap_extract(heap_t **root)
  */
 heap_t *get_last_node(heap_t *root)
 {
-    size_t height = binary_tree_height(root);
-    size_t index;
+	size_t height = binary_tree_height(root);
+	size_t index;
 
-    /* Find the last level-order node */
-    for (index = 1; index < height; index++)
-    {
-        size_t mask = 1 << (height - index - 1);
+	/* Find the last level-order node */
+	for (index = 1; index < height; index++)
+	{
+		size_t mask = 1 << (height - index - 1);
 
-        if (root->left && !(index & mask))
-            root = root->left;
-        else if (root->right && (index & mask))
-            root = root->right;
-    }
-
-    return (root);
+		if (root->left && !(index & mask))
+			root = root->left;
+		else if (root->right && (index & mask))
+			root = root->right;
+	}
+	return (root);
 }
 
 /**
@@ -80,24 +79,23 @@ heap_t *get_last_node(heap_t *root)
  */
 void heapify_down(heap_t *node)
 {
-    heap_t *max_child;
+	heap_t *max_child;
 
-    while (1)
-    {
-        if (node->left == NULL)
-            break;
+	while (1)
+	{
+		if (node->left == NULL)
+			break;
 
-        max_child = node->left;
+		max_child = node->left;
 
-        if (node->right != NULL && node->right->n > node->left->n)
-            max_child = node->right;
+		if (node->right != NULL && node->right->n > node->left->n)
+			max_child = node->right;
+		if (max_child->n <= node->n)
+			break;
 
-        if (max_child->n <= node->n)
-            break;
-
-        swap_values(&node->n, &max_child->n);
-        node = max_child;
-    }
+		swap_values(&node->n, &max_child->n);
+		node = max_child;
+	}
 }
 
 /**
@@ -107,7 +105,7 @@ void heapify_down(heap_t *node)
  */
 void swap_values(int *a, int *b)
 {
-    int temp = *a;
-    *a = *b;
-    *b = temp;
+	int temp = *a;
+	*a = *b;
+	*b = temp;
 }
