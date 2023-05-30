@@ -83,5 +83,10 @@ heap_t *heap_insert(heap_t **root, int value);
 heap_t *array_to_heap(int *array, size_t size);
 int heap_extract(heap_t **root);
 int *heap_to_sorted_array(heap_t *heap, size_t *size);
+void swap_values(int *a, int *b);
+void heapify_up(heap_t *node);
+heap_t *get_insertion_parent(heap_t *root);
+void heapify_down(heap_t *node);
+heap_t *get_last_node(heap_t *root);
 
 #endif /* _BINARY_TREES_H_ */
