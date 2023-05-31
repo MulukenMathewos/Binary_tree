@@ -8,37 +8,6 @@
  */
 int height(const binary_tree_t *tree)
 {
-<<<<<<< HEAD
-	heap_t *new_node, *parent;
-
-	if (root == NULL)
-		return (NULL);
-
-	/* Create a new node */
-	new_node = binary_tree_node(NULL, value);
-	if (new_node == NULL)
-		return (NULL);
-
-	/* If the heap is empty, make the new node the root */
-	if (*root == NULL)
-	{
-		*root = new_node;
-		return (new_node);
-	}
-
-	/* Find the correct position to insert the new node */
-	parent = get_insertion_parent(*root);
-	if (parent->left == NULL)
-		parent->left = new_node;
-	else
-		parent->right = new_node;
-
-	new_node->parent = parent;
-
-	/* Restore the Max Heap property */
-	heapify_up(new_node);
-	return (new_node);
-=======
 	int left = 0;
 	int right = 0;
 
@@ -52,7 +21,6 @@ int height(const binary_tree_t *tree)
 		return (left + 1);
 
 	return (right + 1);
->>>>>>> 489e6b7fc8ce1e6f148cbffb89f113deb8f8f6d2
 }
 
 /**
@@ -63,26 +31,6 @@ int height(const binary_tree_t *tree)
  */
 int binary_tree_is_perfect(const binary_tree_t *tree)
 {
-<<<<<<< HEAD
-	size_t height, index;
-
-	height = binary_tree_height(root);
-
-	/* Find the next available position in the heap */
-	for (index = 1; index <= height; index++)
-	{
-		size_t mask = 1 << (height - index);
-
-		if (index == height)
-			break;
-
-		if (root->left && !(index & mask))
-			root = root->left;
-		else if (root->right && (index & mask))
-			root = root->right;
-	}
-	return (root);
-=======
 	if (tree && height(tree->left) == height(tree->right))
 	{
 		if (height(tree->left) == -1)
@@ -98,7 +46,6 @@ int binary_tree_is_perfect(const binary_tree_t *tree)
 	}
 
 	return (0);
->>>>>>> 489e6b7fc8ce1e6f148cbffb89f113deb8f8f6d2
 }
 
 /**
@@ -110,12 +57,6 @@ int binary_tree_is_perfect(const binary_tree_t *tree)
  */
 void swap(heap_t **arg_node, heap_t **arg_child)
 {
-<<<<<<< HEAD
-	while (node->parent && node->n > node->parent->n)
-	{
-		swap_values(&node->n, &node->parent->n);
-		node = node->parent;
-=======
 	heap_t *node, *child, *node_child, *node_left, *node_right, *parent;
 	int left_right;
 
@@ -155,7 +96,6 @@ void swap(heap_t **arg_node, heap_t **arg_child)
 		parent = node->parent, child->parent = parent;
 		node->parent = child, node->left = node_left;
 		node->right = node_right, *arg_node = child;
->>>>>>> 489e6b7fc8ce1e6f148cbffb89f113deb8f8f6d2
 	}
 }
 
@@ -167,11 +107,6 @@ void swap(heap_t **arg_node, heap_t **arg_child)
  */
 heap_t *heap_insert(heap_t **root, int value)
 {
-<<<<<<< HEAD
-	int temp = *a;
-	*a = *b;
-	*b = temp;
-=======
 	heap_t *new_node;
 
 	if (*root == NULL)
@@ -210,5 +145,4 @@ heap_t *heap_insert(heap_t **root, int value)
 	}
 
 	return (NULL);
->>>>>>> 489e6b7fc8ce1e6f148cbffb89f113deb8f8f6d2
 }
