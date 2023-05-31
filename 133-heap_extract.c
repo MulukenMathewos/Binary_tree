@@ -1,113 +1,79 @@
-#include <stdlib.h>
 #include "binary_trees.h"
 
 /**
- * heap_extract - Extracts the root node of a Max Binary Heap
- * @root: Double pointer to the root node of the Heap
- *
- * Return: Value stored in the root node, or 0 on failure
+ * max - Finds the maximum node in a tree.
+ * @tree: The pointer to the root of the tree.
+ * Return: The node with the maximum value.
+ */
+heap_t *max(heap_t *tree)
+{
+	heap_t *curr_max, *left_max, *right_max;
+
+	if (!tree->left)
+		return (tree);
+	left_max = max(tree->left);
+	if (left_max->n > tree->n)
+		curr_max = left_max;
+	else
+		curr_max = tree;
+	if (tree->right)
+	{
+		right_max = max(tree->right);
+		if (right_max->n > curr_max->n)
+			curr_max = right_max;
+		else
+			curr_max = tree;
+	}
+	return (curr_max);
+}
+
+/**
+ * recurse_extract - Recursively extracts the max from the tree.
+ * @tree: The pointer to the root of the tree.
+ */
+void recurse_extract(heap_t *tree)
+{
+	heap_t *sub_max, *right_max = NULL;
+
+	if (!tree->left)
+		return;
+	sub_max = max((tree)->left);
+	if (tree->right)
+		right_max = max(tree->right);
+	if (right_max && right_max->n > sub_max->n)
+		sub_max = right_max;
+	tree->n = sub_max->n;
+	if (!sub_max->left)
+	{
+		if (sub_max->parent && sub_max->parent->left == sub_max)
+			sub_max->parent->left = NULL;
+		if (sub_max->parent && sub_max->parent->right == sub_max)
+			sub_max->parent->right = NULL;
+		free(sub_max);
+	}
+	else
+		recurse_extract(sub_max);
+}
+
+/**
+ * heap_extract - Extracts the root from a Binary Heap.
+ * @root: The pointer to the root of the tree.
+ * Return: The value of the extracted node.
  */
 int heap_extract(heap_t **root)
 {
-    int value;
+	int value;
 
-    if (root == NULL || *root == NULL)
-        return (0);
-
-    value = (*root)->n;
-
-    /* If the root is the only node in the heap */
-    if ((*root)->left == NULL && (*root)->right == NULL)
-    {
-        free(*root);
-        *root = NULL;
-        return (value);
-    }
-
-    /* Find the last level-order node to replace the root */
-    heap_t *last_node = get_last_node(*root);
-    if (last_node->parent->left == last_node)
-        last_node->parent->left = NULL;
-    else
-        last_node->parent->right = NULL;
-
-    /* Replace the root with the last node */
-    last_node->parent = NULL;
-    last_node->left = (*root)->left;
-    last_node->right = (*root)->right;
-    if ((*root)->left)
-        (*root)->left->parent = last_node;
-    if ((*root)->right)
-        (*root)->right->parent = last_node;
-
-    free(*root);
-    *root = last_node;
-
-    /* Restore the Max Heap property */
-    heapify_down(*root);
-
-    return (value);
-}
-
-/**
- * get_last_node - Finds the last node in the heap in level-order traversal
- * @root: Root node of the Heap
- *
- * Return: Pointer to the last node
- */
-heap_t *get_last_node(heap_t *root)
-{
-    size_t height = binary_tree_height(root);
-    size_t index;
-
-    /* Find the last level-order node */
-    for (index = 1; index < height; index++)
-    {
-        size_t mask = 1 << (height - index - 1);
-
-        if (root->left && !(index & mask))
-            root = root->left;
-        else if (root->right && (index & mask))
-            root = root->right;
-    }
-
-    return (root);
-}
-
-/**
- * heapify_down - Restores the Max Heap property by swapping nodes downward
- * @node: Node to start the heapify process
- */
-void heapify_down(heap_t *node)
-{
-    heap_t *max_child;
-
-    while (1)
-    {
-        if (node->left == NULL)
-            break;
-
-        max_child = node->left;
-
-        if (node->right != NULL && node->right->n > node->left->n)
-            max_child = node->right;
-
-        if (max_child->n <= node->n)
-            break;
-
-        swap_values(&node->n, &max_child->n);
-        node = max_child;
-    }
-}
-
-/**
- * swap_values - Swaps two integer values
- * @a: Pointer to the first value
- * @b: Pointer to the second value
- */
-void swap_values(int *a, int *b)
-{
-    int temp = *a;
-    *a = *b;
-    *b = temp;
+	if (!*root)
+		return (0);
+	value = (*root)->n;
+	if (!(*root)->left)
+	{
+		value = (*root)->n;
+		free(*root);
+		*root = NULL;
+		return (value);
+	}
+	recurse_extract(*root);
+	return (value);
 }
