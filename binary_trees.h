@@ -40,6 +40,29 @@ typedef struct link_s
 	struct binary_tree_s const *node;
 	struct link_s *next;
 } link_t;
+
+/**
+ * binary_tree_node - creates a new binary tree node
+ *
+ * @parent: pointer to the parent node
+ * @value: value to be stored in the new node
+ * Return: pointer to the new node, or NULL on failure
+ */
+binary_tree_t *binary_tree_node(binary_tree_t *parent, int value)
+{
+	binary_tree_t *new_node = malloc(sizeof(binary_tree_t));
+
+	if (new_node == NULL)
+		return (NULL);
+
+	new_node->n = value;
+	new_node->parent = parent;
+	new_node->left = NULL;
+	new_node->right = NULL;
+
+	return (new_node);
+}
+
 /*  ----------------- mandatory task ---------------------------------*/
 void binary_tree_print(const binary_tree_t *);
 binary_tree_t *binary_tree_node(binary_tree_t *parent, int value);
@@ -67,7 +90,6 @@ const binary_tree_t *second);
 void binary_tree_levelorder(const binary_tree_t *tree, void (*func)(int));
 binary_tree_t *binary_tree_rotate_left(binary_tree_t *tree);
 binary_tree_t *binary_tree_rotate_right(binary_tree_t *tree);
-binary_tree_t *binary_tree_node(binary_tree_t *parent, int value);
 bst_t *bst_insert(bst_t **tree, int value);
 bst_t *array_to_bst(int *array, size_t size);
 bst_t *bst_search(const bst_t *tree, int value);
