@@ -49,9 +49,9 @@ At the end of this project, We were able to undesrtand these questions:
 33. Function that removes a node from an AVL tree
 34. Function that builds an AVL tree from an array
 35. What are the average time complexities of those operations on an AVL Tree
-36. Function that checks if a binary tree is a valid Max Binary Heap (Task in progress)
-37. Function that inserts a value in Max Binary Heap (Task in progress)
-38. Function that builds a Max Binary Heap tree from an array (Task in progress)
+36. Function that checks if a binary tree is a valid Max Binary Heap 
+37. Function that inserts a value in Max Binary Heap 
+38. Function that builds a Max Binary Heap tree from an array
 39. Function that extracts the root node of a Max Binary Heap (Task in progress)
 40. Function that converts a Binary Max Heap to a sorted array of integers (Task in progress)
 41. What are the average time complexities of those operations on a Binary Heap
